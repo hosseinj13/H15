@@ -1,8 +1,9 @@
-package org.example;
+package one;
 
 
 import lombok.*;
 
+@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
@@ -11,14 +12,6 @@ import lombok.*;
 public class Fraction {
     private int numerator;
     private int denominator;
-
-    public Fraction(int numerator, int denominator) {
-        if (denominator == 0) {
-            throw new IllegalArgumentException("Denominator cannot be zero");
-        }
-        this.numerator = numerator;
-        this.denominator = denominator;
-    }
 
     public Fraction add(Fraction other) {
         int resultNumerator = this.numerator * other.denominator + other.numerator * this.denominator;
