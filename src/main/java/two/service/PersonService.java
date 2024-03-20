@@ -3,12 +3,11 @@ package two.service;
 import two.PersonRepository;
 import two.model.Person;
 
-import java.util.Date;
-import java.util.Scanner;
+
 
 public class PersonService {
     private final PersonRepository personRepository;
-    
+
     public PersonService(PersonRepository personRepository) {
         this.personRepository = personRepository;
     }
