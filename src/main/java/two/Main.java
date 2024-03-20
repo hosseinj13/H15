@@ -87,8 +87,12 @@ public class Main {
         System.out.println("Enter person's last name: ");
         String lastName = scanner.next();
 
+        System.out.println("Enter person's birth date (YYYY-MM-DD): ");
+        String birthDateString = scanner.next();
+        Date birthDate = parseDate(birthDateString);
+
         PersonService personService = new PersonService(new PersonRepository(session));
-        Person person = personService.signUp(firstName, lastName);
+        Person person = personService.signUp(firstName, lastName, birthDate);
         System.out.println("Signed up successfully. Person ID is: " + person.getId());
     }
 
