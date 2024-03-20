@@ -2,11 +2,9 @@ package two;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
 import two.model.Person;
 import two.model.Student;
 import two.model.Teacher;
@@ -14,7 +12,6 @@ import two.model.TeacherRank;
 import two.service.PersonService;
 import two.service.StudentService;
 import two.service.TeacherService;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -52,7 +49,7 @@ public class Main {
         int choice;
 
         do {
-            System.out.println("*****WELCOME TO SIGNUP MENU*****");
+            System.out.println("***** WELCOME TO SIGNUP MENU *****");
             System.out.println("1. Sign up as Person");
             System.out.println("2. Sign up as Student");
             System.out.println("3. Sign up as Teacher");
@@ -63,6 +60,7 @@ public class Main {
             switch (choice) {
                 case 1:
                     signUpPerson(session);
+                    break;
                 case 2:
                     signUpStudent(session);
                     break;
@@ -75,7 +73,7 @@ public class Main {
                 default:
                     System.out.println("Invalid choice. Please enter again.");
             }
-        } while (choice != 3);
+        } while (choice != 4);
 
         scanner.close();
     }
@@ -148,13 +146,22 @@ public class Main {
         System.out.println("Signed up successfully. Teacher ID is: " + teacher.getId());
     }
 
+    private static String getUserInput(String message) {
+        System.out.println(message);
+        return scanner.next();
+    }
+
     private static Date parseDate(String dateString) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            return dateFormat.parse(dateString);
-        } catch (ParseException e) {
-            System.out.println("Invalid date format! Using current date instead.");
-            return new Date();
+        Date date = null;
+        while (date == null) {
+            try {
+                date = dateFormat.parse(dateString);
+            } catch (ParseException e) {
+                System.out.println("Invalid date format! Please enter the date in YYYY-MM-DD format:");
+                dateString = getUserInput("Enter the birth date in YYYY-MM-DD format: ");
+            }
         }
+        return date;
     }
 }
