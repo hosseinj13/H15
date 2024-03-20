@@ -1,12 +1,16 @@
 package two.service;
 
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import two.model.Person;
 import two.model.Student;
-
 import java.util.Date;
 import java.util.Scanner;
+import java.util.Set;
+
 
 public class StudentService {
     private final Session session;
@@ -25,6 +29,18 @@ public class StudentService {
         student.setStudentCode(studentCode);
         student.setFieldOfStudy(fieldOfStudy);
         student.setEntranceYear(entranceYear);
+
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<Student>> violations = validator.validate(student);
+        if (!violations.isEmpty()) {
+            for (ConstraintViolation<Student> violation : violations) {
+                System.out.println(violation.getMessage());
+            }
+            System.out.println("Sign up failed due to validation errors.");
+            return null;
+        }
+
 
         Transaction transaction = session.beginTransaction();
         session.save(student);
