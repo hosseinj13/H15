@@ -14,6 +14,9 @@ import two.model.TeacherRank;
 import two.service.PersonService;
 import two.service.StudentService;
 import two.service.TeacherService;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -23,9 +26,7 @@ public class Main {
 
     public static void main(String[] args) {
         session = openSession();
-
         displayMenu();
-
         session.close();
     }
 
@@ -148,6 +149,12 @@ public class Main {
     }
 
     private static Date parseDate(String dateString) {
-        return new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            return dateFormat.parse(dateString);
+        } catch (ParseException e) {
+            System.out.println("Invalid date format! Using current date instead.");
+            return new Date();
+        }
     }
 }
